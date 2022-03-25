@@ -1,9 +1,8 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useRef } from 'react'
 import Avatar from 'react-avatar';
 
-
 export default function Client({ ele }) {
-    console.log(ele);
+
     return (
         <Fragment>
             <div className="client">

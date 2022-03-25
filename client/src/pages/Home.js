@@ -39,7 +39,7 @@ export default function Home() {
         <Fragment>
             <div className="homepageWrapper">
                 <div className="formWrapper">
-                    <img src="/code-sync.png" className="hoomepageLogo" alt="logo" srcset="" />
+                    <img src="/code-sync.png" className="hoomepageLogo" alt="logo" srcSet="" />
                     <h4 className="mainLabel">Paste invitation ROOM ID</h4>
                     <div className="inputGroup">
                         <input type="text" onKeyUp={handelEnter} value={roomId} onChange={(e) => serRoomId(e.target.value)} className="inputBox" placeholder="ROMM ID" />

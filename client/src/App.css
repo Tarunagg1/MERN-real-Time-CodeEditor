@@ -134,8 +134,14 @@ footer:hover {
   height: 60px;
 }
 
-
 .leavebtn {
   width: 100%;
   margin-top: 20px;
+}
+
+.CodeMirror {
+  min-height: calc(100vh - 30px);
+  font-size: 18px;
+  line-height: 1.6;
+  padding-top: 20px;
 }
