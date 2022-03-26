@@ -13,7 +13,8 @@ import ACTIONS from '../config/action';
 
 
 export default function Editorpage() {
-    const [clients, setclients] = useState([])
+    const [clients, setclients] = useState([]);
+    const codeRef = useRef(null);
 
 
     const socketRef = useRef();
@@ -43,15 +44,30 @@ export default function Editorpage() {
             });
 
             // listen for joined
-
             socketRef.current.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
                 if (username !== location.state.userName) {
                     toast.success(`${username} joined the room.`);
                 }
                 setclients(clients);
+                socketRef.current.emit(ACTIONS.SYNC_CODE,{code:codeRef.current,socketId})
+            });
+
+            // listning on disconnecting
+            socketRef.current.on(ACTIONS.DISCONNECT, ({ socketId, username }) => {
+                console.log('disconnect ui');
+                toast.success(`${username} disconnected from the room.`);
+                setclients((prev) => {
+                    prev.filter((ele) => ele.socketId !== socketId)
+                });
             })
         }
         init();
+
+        return () => {
+            socketRef.current.disconnect();
+            socketRef.current.off(ACTIONS.JOINED);
+            socketRef.current.off(ACTIONS.DISCONNECTED);
+        };
     }, []);
 
     async function copyRoomId() {
@@ -95,7 +111,7 @@ export default function Editorpage() {
                     <button className="btn leavebtn" onClick={leaveRoom}>LEAVE</button>
                 </div>
                 <div className="editorWrappper">
-                    <Editor />
+                    <Editor socketRef={socketRef} roomId={roomId} onCodeChange={(code) => codeRef.current = code}/>
                 </div>
             </div>
         </Fragment>
